@@ -17,22 +17,20 @@ int main(void)
     double **S,**D;
     double v_5[N][N],v_4[N][N],t_3,t_2,t_1;
     int i,j,k;
+    //inizializzo a zero tutte le variabili e matrici
     t_3=0;
     t_2=0;
     t_1=0;
-    //alloco S a zero
     S=(double**) malloc(sizeof(double*)*N);
     for (i=0;i<N;i++)
     {
         S[i]=(double*) calloc(N,sizeof(double));
     }
-    //alloco D=S^(-1) a zero
     D=(double**) malloc(sizeof(double*)*N);
     for (i=0;i<N;i++)
     {
         D[i]=(double*) calloc(N,sizeof(double));
     }
-    //definisco v_5 a 0 per poi definire gli elementi diversi da zero
     for (k=0;k<N;k++)
     {
         for (j=0;j<N;j++)
@@ -45,6 +43,7 @@ int main(void)
     for (j=0;j<N;j++){
         S[j][j]=2;
     }
+    printf("Il propagatore S:\n");
     for (k=0;k<N;k++)
     {
         for (j=0;j<N;j++)
@@ -53,7 +52,7 @@ int main(void)
         }
         printf("\n");
     }
-    //definisco e stampo gli elementi della matrice v_5 definita come (gamma5 prod.tens id(3x3)), nella base di Weyl
+    //definisco e stampo gli elementi della matrice v_5 definita come (gamma5 prod.tens id(3x3))
         printf("\n");
     for (i=0;i<=5;i++){
         v_5[i][i]=1;
@@ -61,6 +60,7 @@ int main(void)
     for (i=6;i<N;i++){
         v_5[i][i]=-1;
     }
+    printf("la matrice v_5:\n");
     for (k=0;k<N;k++)
     {
         for (j=0;j<N;j++)
@@ -70,13 +70,14 @@ int main(void)
     printf("\n");
     }
     printf("\n");
-    //definisco e stampo gli elementi della matrice v_5 definita come (gamma5 prod.tens id(3x3)), nella base di Weyl
+    //definisco e stampo gli elementi della matrice v_4 definita come (gamma4 prod.tens id(3x3))
     for (i=0;i<6;i++){
         v_4[i][i+6]=1;
     }
     for (i=6;i<N;i++){
         v_4[i][i-6]=1;
     }
+    printf("la matrice v_4:\n");
     for (k=0;k<N;k++)
     {
         for (j=0;j<N;j++)
@@ -85,11 +86,6 @@ int main(void)
         }
         printf("\n");
     }
-    
-    
-    
-    
-    //printf("hello0\n");
     /* Reading part, that gives the segmentation fault
     prop=fopen("matrix.dat","r");
     for (k=0;k<N;k++)
@@ -111,6 +107,7 @@ int main(void)
         }
         //printf("\n");
     }
+    printf("l'operatore di Dirac D:\n");
     for (k=0;k<N;k++)
     {
         for (j=0;j<N;j++)
@@ -151,7 +148,7 @@ int main(void)
 
 
 
-
+//LU matrix decomposition (Numerical Recipes, Marco)
 double *LU_decomposition_solver(double **S, double *b){
     double **U,**L,*y,*x;
     int i,j,k;
