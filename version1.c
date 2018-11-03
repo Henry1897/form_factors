@@ -9,6 +9,9 @@
 #include <stdlib.h>
 #include<math.h>
 #define N 12
+#define NSPIN 4
+#define NCOL 3
+double **matrix();
 double *LU_decomposition_solver(double **S, double *b);
 double **matrix_inverse(double **S  );
 int main(void)
@@ -42,6 +45,14 @@ int main(void)
     //definisco e stampo a schermo un propagatore fittizio 2*id
     for (j=0;j<N;j++){
         S[j][j]=2;
+    }
+    for (k=0;k<N;k++)
+    {
+        for (j=0;j<N;j++)
+        {
+            S[k][j]=matrix()[k][j];
+        }
+        //printf("\n");
     }
     printf("Il propagatore S:\n");
     for (k=0;k<N;k++)
@@ -231,4 +242,66 @@ double **matrix_inverse(double **S ){
     
     return r;
 }
+
+double **matrix()
+{
+    FILE *prop;
+    int i,j,k,is,ic,is_i,ic_i;
+    double **S;
+    S=(double**) malloc(sizeof(double*)*N);
+    for(i=0;i<N;i++)
+    {
+        S[i]=(double*) calloc(N,sizeof(double));
+    }
+    printf("il propagatore prima della lettura\n");
+    for(j=0;j<N;j++)
+    {
+        for(k=0;k<N;k++){
+            printf("%f\t",S[j][k]);
+        }
+        printf("\n");
+    }
+    
+    prop=fopen("fft_S_M0_R0_0","r");
+    if(prop==NULL)
+    {
+        printf("Error opening fft_S_M0_R0_0\n");
+        exit(1);
+    }
+    i=0;
+    /*for(is=0;is<NSPIN;is++)
+     for(ic=0;ic<NCOL;ic++)
+     for(is_i=0;is_i<NSPIN;is_i++)
+     for(ic_i=0;ic_i<NCOL;ic_i++)
+     {
+     printf("hello %d\n",k);
+     k=k+1;
+     i=ic_i*is_i;
+     j=ic*is;
+     S[i][j]=fgetc(prop);
+     //fscanf(prop,"%lf",&S[i][j]);
+     }
+     */
+    for(j=0;j<N;j++)
+    {
+        for(k=0;k<N;k++){
+            printf("hello %d\n",i);
+            i=i+1;
+            S[j][k]=fgetc(prop);
+        }
+        printf("\n");
+    }
+    fclose(prop);
+    /*printf("il propagatore dopo la lettura\n");
+    for(j=0;j<N;j++)
+    {
+        for(k=0;k<N;k++){
+            printf("%lf\t",S[j][k]);
+        }
+        printf("\n");
+    }
+    */
+    return S;
+}
+
 
