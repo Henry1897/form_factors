@@ -72,7 +72,7 @@ int main()
         {
             for(j=0;j<12;j++)
             {
-                Sm[i][j]=Sm[i][j]/2;
+                Sm[i][j]=Sm[i][j]/15;
                 fprintf(out,"%.16g\n%.16g\n",creal(Sm[i][j]),cimag(Sm[i][j]));
             }
         }
